@@ -101,6 +101,12 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 html.typebar-hidden { --typebar-h: 0px; }
+/* Police manuscrite en titres : pas d’approche serrée (lettres liées), interligne plus
+   généreux et taille un peu augmentée (petit œil). */
+html.display-script { --display-tracking: 0em; --display-leading: 1.16; --display-weight: 400; --display-scale: 1.18; }
+/* Logo : « SERIA » reste lisible en capitales droites, « Patrimoine » passe en manuscrite */
+html.display-script .wordmark__name { font-family: var(--font-body); }
+html.display-script .wordmark__sub { font-style: normal; font-size: 1.5rem; }
 
 /* =========================================================
    2. Base
@@ -137,7 +143,7 @@ h1, h2, h3, .wordmark, .pillar__title, .prose .lead, .protege__statement,
 .reasons b, .member__name, .pledge__tree, .step::before {
   font-variation-settings: "opsz" var(--display-opsz);
 }
-h2 { font-size: var(--fs-h2); }
+h2 { font-size: calc(var(--fs-h2) * var(--display-scale, 1)); }
 h3 { font-size: var(--fs-h3); line-height: 1.2; letter-spacing: 0; }
 strong { font-weight: 600; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
@@ -291,7 +297,7 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
 }
 .hero .container { position: relative; }
 .hero h1 {
-  color: var(--white); font-size: var(--fs-h1); max-width: 17ch;
+  color: var(--white); font-size: calc(var(--fs-h1) * var(--display-scale, 1)); max-width: 17ch;
 }
 .hero__intro { margin-top: clamp(28px, 4vw, 44px); display: grid; gap: 24px; max-width: 46rem; }
 .hero__intro p { color: var(--on-dark-muted); font-size: var(--fs-lead); line-height: 1.5; max-width: 40ch; }
@@ -452,7 +458,7 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
    ========================================================= */
 .pledge { display: grid; grid-template-columns: 6fr 6fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
 .pledge__tree {
-  font-family: var(--font-display); font-size: clamp(2rem, 1.4rem + 2.6vw, 3.5rem);
+  font-family: var(--font-display); font-size: calc(clamp(2rem, 1.4rem + 2.6vw, 3.5rem) * var(--display-scale, 1));
   line-height: 1.08; color: var(--navy); letter-spacing: var(--display-tracking); max-width: 13ch;
 }
 .pledge__main p { margin-top: 24px; color: var(--muted); }
@@ -1054,11 +1060,15 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
 (() => {
   // Polices sans serif : les plus populaires de Google Fonts + une sélection premium et luxe
   const FONTS = [
-    'Albert Sans', 'Belleza', 'DM Sans', 'Federo', 'Figtree', 'Hanken Grotesk', 'Instrument Sans',
-    'Inter', 'Josefin Sans', 'Jost', 'Julius Sans One', 'Lato', 'Manrope', 'Montserrat',
-    'Nunito Sans', 'Open Sans', 'Outfit', 'Plus Jakarta Sans', 'Poppins', 'Raleway', 'Roboto',
-    'Schibsted Grotesk', 'Source Sans 3', 'Tenor Sans', 'Urbanist', 'Work Sans'
+    'Albert Sans', 'Alex Brush', 'Allura', 'Belleza', 'Dancing Script', 'DM Sans', 'Federo',
+    'Figtree', 'Great Vibes', 'Hanken Grotesk', 'Instrument Sans', 'Inter', 'Josefin Sans', 'Jost',
+    'Julius Sans One', 'Lato', 'Manrope', 'Montserrat', 'Nunito Sans', 'Open Sans', 'Outfit',
+    'Parisienne', 'Plus Jakarta Sans', 'Poppins', 'Raleway', 'Roboto', 'Schibsted Grotesk',
+    'Source Sans 3', 'Tenor Sans', 'Urbanist', 'Work Sans'
   ];
+  // Manuscrites : proposées pour les titres uniquement
+  const SCRIPTS = ['Alex Brush', 'Allura', 'Dancing Script', 'Great Vibes', 'Parisienne'];
+  const BODY_FONTS = FONTS.filter(f => !SCRIPTS.includes(f));
   const STACK = 'system-ui, -apple-system, "Segoe UI", sans-serif';
 
   const DEFAULTS = { display: 'Plus Jakarta Sans', body: 'Inter' };
@@ -1069,11 +1079,11 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
   const status = document.getElementById('tb-status');
 
   // ---- Remplissage des selects
-  function fill(select) {
-    FONTS.forEach(name => select.add(new Option(name, name)));
+  function fill(select, list) {
+    list.forEach(name => select.add(new Option(name, name)));
   }
-  fill(selDisplay);
-  fill(selBody);
+  fill(selDisplay, FONTS);
+  fill(selBody, BODY_FONTS);
 
   // ---- Chargement à la demande, avec repli si certaines graisses n’existent pas
   const cache = new Map();
@@ -1109,13 +1119,17 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
 
   function quote(name) { return `"${name}"`; }
 
-  function applyDisplay(name) { root.style.setProperty('--font-display', `${quote(name)}, ${STACK}`); }
+  function applyDisplay(name) {
+    const script = SCRIPTS.includes(name);
+    root.style.setProperty('--font-display', `${quote(name)}, ${script ? 'cursive' : STACK}`);
+    root.classList.toggle('display-script', script);
+  }
   function applyBody(name) { root.style.setProperty('--font-body', `${quote(name)}, ${STACK}`); }
 
   let token = 0;
   async function setFonts(display, body, { updateUrl = true } = {}) {
     if (!FONTS.includes(display)) display = DEFAULTS.display;
-    if (!FONTS.includes(body)) body = DEFAULTS.body;
+    if (!BODY_FONTS.includes(body)) body = DEFAULTS.body;
     selDisplay.value = display;
     selBody.value = body;
     const t = ++token;
