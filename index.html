@@ -1,0 +1,1298 @@
+<!doctype html>
+<html lang="fr" data-universe="marine">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seria Patrimoine — Gestion de patrimoine et courtage en assurances</title>
+<meta name="description" content="Seria Patrimoine, cabinet de gestion de patrimoine et de courtage en assurances à Villenave-d’Ornon, membre de la CNCGP. Placements, assurances, immobilier, retraite et accompagnement des majeurs protégés.">
+<meta name="theme-color" content="#002854">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23002854'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='36' fill='white' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+
+<!-- Google Fonts : préconnexion + duo par défaut (les autres polices sont chargées à la demande) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" data-font="Newsreader" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" data-font="Hanken Grotesk" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+
+<style>
+/* =========================================================
+   1. Tokens
+   ========================================================= */
+/* Variables animables : la bascule marine → sauge est un fondu */
+@property --accent      { syntax: '<color>'; inherits: true; initial-value: #002854; }
+@property --accent-ink  { syntax: '<color>'; inherits: true; initial-value: #002854; }
+@property --universe-bg { syntax: '<color>'; inherits: true; initial-value: #ffffff; }
+@property --tint        { syntax: '<color>'; inherits: true; initial-value: #e7ecf2; }
+@property --line        { syntax: '<color>'; inherits: true; initial-value: #e3e6ea; }
+
+:root {
+  /* Marque (site actuel) */
+  --navy: #002854;
+  --navy-deep: #001b3a;
+  --navy-night: #00132a;
+  --mist: #f4f4f4;
+  --fog: #efefef;
+  --white: #ffffff;
+
+  /* Univers « Majeurs protégés » */
+  --sage-ink: #2f3d2b;
+  --sage: #5c7151;
+  --sage-leaf: #9fb090;
+  --sage-tint: #dfe6d7;
+  --sage-page: #eef2e8;
+
+  /* Texte */
+  --ink: #18222f;
+  --muted: #566170;
+  --on-dark: #ffffff;
+  --on-dark-muted: rgba(255,255,255,.72);
+  --on-dark-line: rgba(255,255,255,.18);
+
+  /* Univers actif (marine par défaut) */
+  --accent: #002854;
+  --accent-ink: #002854;
+  --universe-bg: #ffffff;
+  --tint: #e7ecf2;
+  --line: #e3e6ea;
+
+  /* Typo — pilotée par la barre d’essai */
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.012em;
+  --display-leading: 1.06;
+  --ui-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Échelle typographique (base 18 px) */
+  --fs-small: 0.875rem;
+  --fs-body: 1.125rem;
+  --fs-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --fs-h3: clamp(1.375rem, 1.25rem + 0.5vw, 1.625rem);
+  --fs-h2: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
+  --fs-h1: clamp(2.625rem, 1.5rem + 4.2vw, 5.25rem);
+
+  /* Mise en page */
+  --container: 1240px;
+  --gutter: clamp(20px, 5vw, 48px);
+  --section-pad: clamp(80px, 10vw, 148px);
+  --typebar-h: 56px;
+  --nav-h: 76px;
+  --radius-pill: 999px;
+  --radius-panel: 4px;
+  --shift: 0.9s cubic-bezier(.4, 0, .2, 1);
+}
+
+html[data-universe="sage"] {
+  --accent: var(--sage);
+  --accent-ink: var(--sage-ink);
+  --universe-bg: var(--sage-page);
+  --tint: var(--sage-tint);
+  --line: #cdd6c3;
+}
+
+html {
+  transition: --accent var(--shift), --accent-ink var(--shift), --universe-bg var(--shift),
+              --tint var(--shift), --line var(--shift);
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--typebar-h) + var(--nav-h));
+  -webkit-text-size-adjust: 100%;
+}
+html.typebar-hidden { --typebar-h: 0px; }
+
+/* =========================================================
+   2. Base
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  padding-top: var(--typebar-h);
+}
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+p { margin: 0 0 1em; max-width: 65ch; }
+p:last-child { margin-bottom: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+  line-height: var(--display-leading);
+  color: var(--accent-ink);
+  margin: 0;
+  text-wrap: balance;
+  transition: color var(--shift);
+}
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); line-height: 1.2; letter-spacing: 0; }
+strong { font-weight: 600; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.on-dark :focus-visible { outline-color: var(--white); }
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0; padding: 0; margin: -1px;
+}
+.skip-link {
+  position: absolute; left: 16px; top: -100px; z-index: 100;
+  background: var(--white); color: var(--navy); padding: 10px 16px; border-radius: 4px;
+}
+.skip-link:focus { top: calc(var(--typebar-h) + 12px); }
+
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: var(--section-pad); position: relative; }
+.section--mist { background: var(--mist); }
+.lead { font-size: var(--fs-lead); line-height: 1.5; color: var(--ink); }
+.muted { color: var(--muted); }
+
+/* Boutons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; padding: 0 28px;
+  border-radius: var(--radius-pill); border: 1px solid transparent;
+  font: 600 1rem/1 var(--font-body); text-decoration: none; cursor: pointer;
+  transition: background-color .25s, color .25s, border-color .25s;
+}
+.btn--primary { background: var(--accent); color: var(--white); }
+.btn--primary:hover { background: var(--accent-ink); }
+.btn--light { background: var(--white); color: var(--navy); }
+.btn--light:hover { background: var(--sage-page); }
+.btn--ghost-light { border-color: var(--on-dark-line); color: var(--white); }
+.btn--ghost-light:hover { border-color: var(--white); }
+.btn--ghost { border-color: var(--line); color: var(--accent-ink); }
+.btn--ghost:hover { border-color: var(--accent); }
+.btn svg { width: 18px; height: 18px; flex: none; }
+
+/* =========================================================
+   3. Barre d’essai typographique (outil, hors design)
+   ========================================================= */
+.typebar {
+  position: fixed; inset: 0 0 auto 0; z-index: 60;
+  height: var(--typebar-h);
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 16px;
+  background: #0d1520; color: #e8ecf1;
+  font: 13px/1.2 var(--ui-font);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.typebar__title { display: flex; align-items: center; gap: 8px; font-weight: 600; white-space: nowrap; }
+.typebar__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(255,255,255,.12); }
+html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
+.typebar__field { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.typebar__field label { color: #9aa6b4; white-space: nowrap; }
+.typebar__control { display: flex; align-items: stretch; min-width: 0; }
+.typebar select {
+  appearance: none; -webkit-appearance: none;
+  height: 34px; min-width: 0; width: 210px;
+  padding: 0 30px 0 12px;
+  background: #1a2433 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%239aa6b4' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 11px center / 10px 7px;
+  color: #fff; border: 1px solid #2b3747; border-radius: 0;
+  font: 500 13px/1 var(--ui-font); cursor: pointer;
+}
+.typebar select:hover { border-color: #45546a; }
+.tb-step {
+  width: 30px; height: 34px; padding: 0;
+  background: #1a2433; color: #c9d2dd; border: 1px solid #2b3747;
+  font: 16px/1 var(--ui-font); cursor: pointer;
+}
+.tb-step:first-child { border-radius: 6px 0 0 6px; border-right: 0; }
+.tb-step:last-child { border-radius: 0 6px 6px 0; border-left: 0; }
+.tb-step:hover { background: #243043; color: #fff; }
+.typebar__status { color: #9aa6b4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1; }
+.typebar__actions { display: flex; gap: 6px; margin-left: auto; }
+.tb-btn {
+  height: 34px; padding: 0 12px; border-radius: 6px;
+  background: transparent; color: #dfe5ec; border: 1px solid #2b3747;
+  font: 500 13px/1 var(--ui-font); cursor: pointer; white-space: nowrap;
+}
+.tb-btn:hover { border-color: #5a6a80; color: #fff; }
+.typebar :focus-visible { outline: 2px solid #8fb3ff; outline-offset: 1px; }
+.typebar-reopen {
+  position: fixed; top: 12px; right: 12px; z-index: 60;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #0d1520; color: #fff; border: 1px solid rgba(255,255,255,.15);
+  font: 600 15px/1 var(--ui-font); cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,19,42,.25);
+}
+.typebar-reopen[hidden], html.typebar-hidden .typebar { display: none; }
+.toast {
+  position: fixed; left: 50%; bottom: 24px; z-index: 80;
+  transform: translate(-50%, 20px); opacity: 0;
+  background: #0d1520; color: #fff; padding: 12px 18px; border-radius: 8px;
+  font: 500 14px/1.3 var(--ui-font); pointer-events: none;
+  transition: opacity .25s, transform .25s;
+}
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* =========================================================
+   4. Navigation
+   ========================================================= */
+.site-header {
+  position: sticky; top: var(--typebar-h); z-index: 50;
+  background: color-mix(in srgb, var(--universe-bg) 92%, transparent);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+  backdrop-filter: saturate(140%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.site-header__inner { height: var(--nav-h); display: flex; align-items: center; gap: 32px; }
+.wordmark {
+  display: inline-flex; align-items: baseline; gap: .4em;
+  text-decoration: none; color: var(--accent-ink); white-space: nowrap;
+  transition: color var(--shift);
+}
+.wordmark__name {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 1.375rem; letter-spacing: .16em;
+}
+.wordmark__sub { font-family: var(--font-display); font-style: italic; font-size: 1.125rem; color: var(--muted); }
+.nav { margin-left: auto; display: flex; align-items: center; gap: 28px; }
+.nav__list { display: flex; gap: 26px; }
+.nav__list a {
+  position: relative; display: inline-block; padding: 8px 0;
+  font-size: .9375rem; font-weight: 500; text-decoration: none; color: var(--ink);
+}
+.nav__list a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 2px; height: 1.5px;
+  background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform .3s;
+}
+.nav__list a:hover::after, .nav__list a[aria-current="true"]::after { transform: scaleX(1); }
+.nav__list a[aria-current="true"] { color: var(--accent-ink); }
+.nav .btn { min-height: 44px; padding: 0 20px; font-size: .9375rem; }
+.nav-toggle { display: none; }
+.progress {
+  position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%;
+  background: var(--accent); transform-origin: left; transform: scaleX(0);
+}
+
+/* =========================================================
+   5. Hero
+   ========================================================= */
+.hero {
+  background: var(--navy); color: var(--on-dark);
+  padding-block: clamp(72px, 9vw, 132px) clamp(48px, 6vw, 72px);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  /* lignes de « relief » très discrètes, rappel des courbes de valorisation */
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.07) 0 40%, transparent 40.2%),
+    radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.05) 0 55%, transparent 55.2%),
+    radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.035) 0 70%, transparent 70.2%);
+}
+.hero .container { position: relative; }
+.hero h1 {
+  color: var(--white); font-size: var(--fs-h1); max-width: 17ch;
+}
+.hero__intro { margin-top: clamp(28px, 4vw, 44px); display: grid; gap: 24px; max-width: 46rem; }
+.hero__intro p { color: var(--on-dark-muted); font-size: var(--fs-lead); line-height: 1.5; max-width: 40ch; }
+.hero__intro p strong { color: var(--white); font-weight: 500; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.pillars {
+  margin-top: clamp(64px, 8vw, 112px);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  border-top: 1px solid var(--on-dark-line);
+}
+.pillar { padding: 24px 28px 0 0; }
+.pillar + .pillar { padding-left: 28px; border-left: 1px solid var(--on-dark-line); }
+.pillar__title { margin: 0; font-family: var(--font-display); font-weight: var(--display-weight); font-size: var(--fs-h3); line-height: 1.2; color: var(--white); }
+.pillar p + p { margin-top: 6px; color: var(--on-dark-muted); font-size: 1rem; }
+
+/* =========================================================
+   6. Sections de contenu
+   ========================================================= */
+.split { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+.split__aside h2 { position: sticky; top: calc(var(--typebar-h) + var(--nav-h) + 32px); }
+.prose > * + * { margin-top: 1.1em; }
+.prose .lead { color: var(--accent-ink); font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.125rem); line-height: 1.25; max-width: 30ch; transition: color var(--shift); }
+
+/* Étapes */
+.section-head { display: grid; gap: 16px; max-width: 44rem; margin-bottom: clamp(48px, 6vw, 80px); }
+.section-head p { color: var(--muted); font-size: var(--fs-lead); line-height: 1.5; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); counter-reset: step; }
+.step { position: relative; padding: 28px 28px 0 0; border-top: 1px solid #d4d8de; }
+.step::before {
+  counter-increment: step; content: counter(step);
+  position: absolute; top: -20px; left: 0;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--navy); color: var(--white);
+  font: 500 1.125rem/1 var(--font-display);
+}
+.step h3 { margin-top: 20px; font-size: 1.25rem; color: var(--navy); }
+.step p { margin-top: 8px; color: var(--muted); font-size: 1rem; }
+
+/* Solutions */
+.solutions { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--fog); }
+.solution { padding: clamp(32px, 4vw, 48px) clamp(24px, 4vw, 56px) clamp(32px, 4vw, 48px) 0; border-bottom: 1px solid var(--fog); }
+.solution:nth-child(even) { padding-left: clamp(24px, 4vw, 56px); padding-right: 0; border-left: 1px solid var(--fog); }
+.solution h3 { color: var(--navy); }
+.solution__list { margin-top: 18px; display: grid; gap: 10px; }
+.solution__list li { position: relative; padding-left: 22px; }
+.solution__list li::before {
+  content: ""; position: absolute; left: 0; top: .72em; width: 10px; height: 1px; background: var(--navy);
+}
+.solution__partners { margin-top: 22px; font-size: var(--fs-small); color: var(--muted); line-height: 1.55; }
+.solution__partners b { color: var(--ink); font-weight: 600; }
+.solution__note { margin-top: 14px; font-size: 1rem; }
+.solution__note a { color: var(--sage); font-weight: 600; text-underline-offset: 3px; }
+
+/* =========================================================
+   7. Univers Majeurs protégés
+   ========================================================= */
+.protege {
+  background: var(--universe-bg);
+  transition: background-color var(--shift);
+  overflow: hidden;
+}
+.protege .container { position: relative; }
+.sprig {
+  position: absolute; top: -24px; right: var(--gutter);
+  width: clamp(130px, 20vw, 260px); height: auto;
+  color: var(--sage-leaf); pointer-events: none;
+}
+.sprig .stem, .sprig .leaf, .sprig .rib {
+  fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.6s cubic-bezier(.4, 0, .2, 1);
+}
+.sprig .leaf { fill: var(--sage-tint); fill-opacity: 0; transition: stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1), fill-opacity 1s ease .9s; }
+.sprig .rib { stroke-width: 1; }
+.protege.is-drawn .sprig .stem,
+.protege.is-drawn .sprig .leaf,
+.protege.is-drawn .sprig .rib { stroke-dashoffset: 0; }
+.protege.is-drawn .sprig .leaf { fill-opacity: .9; }
+.protege.is-drawn .sprig .l2 { transition-delay: .15s, 1s; }
+.protege.is-drawn .sprig .l3 { transition-delay: .3s, 1.1s; }
+.protege.is-drawn .sprig .l4 { transition-delay: .45s, 1.2s; }
+.protege.is-drawn .sprig .l5 { transition-delay: .6s, 1.3s; }
+.protege.is-drawn .sprig .l6 { transition-delay: .75s, 1.4s; }
+
+.protege__intro { position: relative; z-index: 1; max-width: 50rem; }
+.protege__intro h2 { max-width: 15ch; }
+.protege__intro .lead { margin-top: 28px; max-width: 38ch; }
+.protege__statement {
+  position: relative; z-index: 1;
+  margin: clamp(56px, 7vw, 96px) 0 0; padding: 0 0 0 clamp(20px, 3vw, 40px);
+  border-left: 2px solid var(--accent);
+  font-family: var(--font-display); font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.375rem);
+  line-height: 1.28; color: var(--accent-ink); max-width: 32ch;
+  transition: color var(--shift), border-color var(--shift);
+}
+.audiences {
+  position: relative; z-index: 1;
+  margin-top: clamp(56px, 7vw, 96px);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 3vw, 48px);
+}
+.audience { border-top: 1px solid var(--line); padding-top: 20px; transition: border-color var(--shift); }
+.audience h3 { font-size: 1.25rem; }
+.audience p { margin-top: 8px; font-size: 1rem; color: var(--muted); }
+.protege__grid {
+  position: relative; z-index: 1;
+  margin-top: clamp(56px, 7vw, 96px);
+  display: grid; grid-template-columns: 7fr 5fr; gap: clamp(32px, 5vw, 80px);
+}
+.protege__panel {
+  background: var(--white); padding: clamp(28px, 4vw, 48px);
+  border-radius: var(--radius-panel);
+}
+.protege__panel h3 { margin-bottom: 20px; }
+.checklist { display: grid; gap: 16px; }
+.checklist li { display: grid; grid-template-columns: 22px 1fr; gap: 14px; align-items: start; }
+.checklist svg { width: 22px; height: 22px; margin-top: 3px; color: var(--accent); }
+.measures h3 { margin-bottom: 18px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li {
+  padding: 8px 14px; border-radius: var(--radius-pill);
+  border: 1px solid var(--line); background: color-mix(in srgb, var(--white) 55%, transparent);
+  font-size: .9375rem; color: var(--accent-ink);
+  transition: border-color var(--shift), color var(--shift);
+}
+.measures p { margin-top: 22px; font-size: 1rem; color: var(--muted); }
+.protege__cta { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* =========================================================
+   8. Cabinet & équipe
+   ========================================================= */
+.reasons { margin-top: 36px; display: grid; gap: 0; border-top: 1px solid var(--fog); }
+.reasons li { padding: 18px 0; border-bottom: 1px solid var(--fog); display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
+.reasons b { font-family: var(--font-display); font-weight: var(--display-weight); font-size: 1.25rem; color: var(--navy); line-height: 1.3; }
+.reasons span { color: var(--muted); font-size: 1rem; }
+.team { margin-top: clamp(72px, 9vw, 120px); }
+.team__head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+.team__head p { color: var(--muted); font-size: 1rem; }
+.team__list { border-top: 1px solid var(--ink); }
+.member {
+  display: grid; grid-template-columns: 56px minmax(0, 1.2fr) minmax(0, 1.6fr) auto auto;
+  gap: 24px; align-items: center;
+  padding: 20px 0; border-bottom: 1px solid var(--fog);
+}
+.member__mono {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--mist); color: var(--navy);
+  font: 500 1.125rem/1 var(--font-display); letter-spacing: .04em;
+}
+.member__name { font-family: var(--font-display); font-size: 1.375rem; line-height: 1.2; color: var(--navy); }
+.member__role { color: var(--muted); font-size: 1rem; line-height: 1.4; }
+.member a { font-size: .9375rem; text-decoration: none; white-space: nowrap; color: var(--ink); }
+.member a:hover { color: var(--navy); text-decoration: underline; text-underline-offset: 3px; }
+
+/* =========================================================
+   9. Engagements
+   ========================================================= */
+.pledge { display: grid; grid-template-columns: 6fr 6fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
+.pledge__tree {
+  font-family: var(--font-display); font-size: clamp(2rem, 1.4rem + 2.6vw, 3.5rem);
+  line-height: 1.08; color: var(--navy); letter-spacing: var(--display-tracking); max-width: 13ch;
+}
+.pledge__main p { margin-top: 24px; color: var(--muted); }
+.pledge__main .btn { margin-top: 28px; }
+.pledge__list { border-top: 1px solid #d4d8de; }
+.pledge__list li { padding: 24px 0; border-bottom: 1px solid #d4d8de; }
+.pledge__list h3 { font-size: 1.25rem; color: var(--navy); }
+.pledge__list p { margin-top: 6px; font-size: 1rem; color: var(--muted); }
+.pledge__list a { color: var(--navy); text-underline-offset: 3px; }
+
+/* =========================================================
+   10. Contact
+   ========================================================= */
+.contact { background: var(--navy); color: var(--on-dark); }
+.contact h2 { color: var(--white); }
+.contact__grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 6vw, 96px); }
+.contact__intro { margin-top: 20px; color: var(--on-dark-muted); font-size: var(--fs-lead); line-height: 1.5; }
+.coords { margin-top: 44px; display: grid; gap: 26px; }
+.coords dt { font-size: var(--fs-small); color: var(--on-dark-muted); margin-bottom: 4px; }
+.coords dd { margin: 0; font-size: 1.125rem; }
+.coords a { text-decoration: none; border-bottom: 1px solid var(--on-dark-line); }
+.coords a:hover { border-color: var(--white); }
+.hours { display: grid; grid-template-columns: auto 1fr; gap: 4px 18px; font-size: 1rem; }
+.hours span:nth-child(odd) { color: var(--on-dark-muted); }
+.form {
+  background: var(--white); color: var(--ink);
+  border-radius: var(--radius-panel); padding: clamp(28px, 4vw, 48px);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+}
+.form h3 { grid-column: 1 / -1; color: var(--navy); }
+.field { display: grid; gap: 8px; }
+.field--full { grid-column: 1 / -1; }
+.field label { font-size: .9375rem; font-weight: 500; }
+.field input, .field select, .field textarea {
+  width: 100%; min-height: 50px; padding: 12px 14px;
+  font: 400 1rem/1.4 var(--font-body); color: var(--ink);
+  background: var(--white); border: 1px solid #cfd4db; border-radius: 4px;
+}
+.field textarea { min-height: 140px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--navy); outline-offset: 0; border-color: var(--navy); }
+.form__foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; }
+.form__foot p { font-size: var(--fs-small); color: var(--muted); max-width: 40ch; }
+.form .btn--primary { background: var(--navy); }
+.form .btn--primary:hover { background: var(--navy-deep); }
+
+/* =========================================================
+   11. Pied de page
+   ========================================================= */
+.footer { background: var(--navy-night); color: var(--on-dark-muted); padding-block: 64px 40px; font-size: .9375rem; }
+.footer__top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 32px; padding-bottom: 40px; border-bottom: 1px solid var(--on-dark-line); }
+.footer .wordmark { color: var(--white); }
+.footer .wordmark__sub { color: var(--on-dark-muted); }
+.footer__nav { display: flex; flex-wrap: wrap; gap: 10px 26px; }
+.footer__nav a { text-decoration: none; color: var(--on-dark-muted); }
+.footer__nav a:hover { color: var(--white); }
+.footer__legal { padding-top: 32px; display: grid; gap: 16px; }
+.footer__legal p { max-width: 90ch; }
+.footer details summary { cursor: pointer; color: var(--white); width: fit-content; }
+.footer details[open] summary { margin-bottom: 12px; }
+.footer details a { color: var(--white); }
+
+/* =========================================================
+   12. Responsive
+   ========================================================= */
+@media (max-width: 1120px) {
+  .typebar__title span:last-child, .tb-step { display: none; }
+  .typebar select { width: 170px; border-radius: 6px; }
+  .nav__list { gap: 18px; }
+  .nav .btn { display: none; }
+}
+@media (max-width: 960px) {
+  :root { --nav-h: 64px; }
+  /* backdrop-filter créerait un bloc conteneur pour le menu fixe : on le retire en mobile */
+  .site-header { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--universe-bg); }
+  .nav-toggle {
+    display: inline-flex; align-items: center; gap: 8px; margin-left: auto;
+    height: 44px; padding: 0 16px; border-radius: var(--radius-pill);
+    background: transparent; border: 1px solid var(--line); color: var(--accent-ink);
+    font: 500 .9375rem/1 var(--font-body); cursor: pointer;
+  }
+  .nav {
+    position: fixed; inset: calc(var(--typebar-h) + var(--nav-h)) 0 0 0; z-index: 49;
+    display: none; flex-direction: column; align-items: stretch; gap: 0;
+    padding: 24px var(--gutter) 40px; background: var(--universe-bg); overflow-y: auto;
+  }
+  .nav.is-open { display: flex; }
+  .nav__list { flex-direction: column; gap: 0; }
+  .nav__list a { display: block; padding: 16px 0; font-family: var(--font-display); font-size: 1.75rem; border-bottom: 1px solid var(--line); }
+  .nav__list a::after { display: none; }
+  .nav .btn { display: inline-flex; margin-top: 28px; min-height: 52px; }
+  .split, .contact__grid, .pledge, .protege__grid { grid-template-columns: 1fr; }
+  .split__aside h2 { position: static; }
+  .steps { grid-template-columns: repeat(2, 1fr); row-gap: 56px; }
+  .member { grid-template-columns: 56px 1fr; gap: 4px 18px; }
+  .member__mono { grid-row: span 4; align-self: start; }
+  .member__role { margin-bottom: 6px; }
+}
+@media (max-width: 720px) {
+  :root { --typebar-h: 60px; --fs-body: 1.0625rem; }
+  .typebar { gap: 8px; padding: 0 10px; }
+  .typebar__title, .typebar__status, #tb-reset, #tb-share { display: none; }
+  .typebar__field { flex: 1; flex-direction: column; align-items: stretch; gap: 3px; }
+  .typebar__field label { font-size: 11px; }
+  .typebar select { width: 100%; height: 32px; font-size: 14px; }
+  .typebar__actions { margin-left: 0; }
+  .tb-btn { padding: 0 10px; height: 44px; }
+  .wordmark__sub { display: none; }
+  .pillars { grid-template-columns: 1fr; }
+  .pillar, .pillar + .pillar { padding: 20px 0; border-left: 0; border-bottom: 1px solid var(--on-dark-line); }
+  .solutions { grid-template-columns: 1fr; }
+  .solution, .solution:nth-child(even) { padding-left: 0; padding-right: 0; border-left: 0; }
+  .steps { grid-template-columns: 1fr; }
+  .audiences { grid-template-columns: 1fr; }
+  .reasons li { grid-template-columns: 1fr; gap: 4px; }
+  .form { grid-template-columns: 1fr; }
+  .sprig { opacity: .55; top: -40px; }
+  .protege__intro h2 { max-width: 11ch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; transition: none; }
+  *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0s !important; animation: none !important; }
+}
+</style>
+</head>
+
+<body>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
+
+<!-- =====================================================
+     BARRE D’ESSAI TYPOGRAPHIQUE
+     Outil de présentation : à supprimer avant mise en ligne définitive
+     (bloc .typebar + bouton .typebar-reopen + script « Essai typo »).
+     ===================================================== -->
+<div class="typebar" role="region" aria-label="Essai de polices Google Fonts">
+  <div class="typebar__title"><span class="typebar__dot" aria-hidden="true"></span><span>Essai typo</span></div>
+
+  <div class="typebar__field">
+    <label for="font-display">Titres</label>
+    <div class="typebar__control">
+      <button class="tb-step" type="button" data-target="font-display" data-dir="-1" aria-label="Police de titres précédente">‹</button>
+      <select id="font-display"></select>
+      <button class="tb-step" type="button" data-target="font-display" data-dir="1" aria-label="Police de titres suivante">›</button>
+    </div>
+  </div>
+
+  <div class="typebar__field">
+    <label for="font-body">Texte</label>
+    <div class="typebar__control">
+      <button class="tb-step" type="button" data-target="font-body" data-dir="-1" aria-label="Police de texte précédente">‹</button>
+      <select id="font-body"></select>
+      <button class="tb-step" type="button" data-target="font-body" data-dir="1" aria-label="Police de texte suivante">›</button>
+    </div>
+  </div>
+
+  <span class="typebar__status" id="tb-status" aria-live="polite"></span>
+
+  <div class="typebar__actions">
+    <button class="tb-btn" type="button" id="tb-reset">Réinitialiser</button>
+    <button class="tb-btn" type="button" id="tb-share">Copier le lien</button>
+    <button class="tb-btn" type="button" id="tb-hide" aria-label="Masquer la barre d’essai">✕</button>
+  </div>
+</div>
+<button class="typebar-reopen" type="button" id="tb-show" hidden aria-label="Afficher la barre d’essai typographique">Aa</button>
+<div class="toast" id="toast" role="status"></div>
+
+<!-- =====================================================
+     EN-TÊTE
+     ===================================================== -->
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="wordmark" href="#accueil" aria-label="Seria Patrimoine, retour en haut">
+      <span class="wordmark__name">SERIA</span><span class="wordmark__sub">Patrimoine</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+      <ul class="nav__list">
+        <li><a href="#metier">Notre métier</a></li>
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#majeurs-proteges">Majeurs protégés</a></li>
+        <li><a href="#cabinet">Le cabinet</a></li>
+        <li><a href="#engagements">Engagements</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a class="btn btn--primary" href="#contact">Prendre rendez-vous</a>
+    </nav>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+</header>
+
+<main id="contenu">
+
+<!-- =====================================================
+     HERO
+     ===================================================== -->
+<section class="hero on-dark" id="accueil">
+  <div class="container">
+    <h1>Votre patrimoine, construit avec vous et suivi dans la durée.</h1>
+    <div class="hero__intro">
+      <p><strong>Seria Patrimoine</strong> est un cabinet de gestion de patrimoine et de courtage en assurances à Villenave-d’Ornon, membre de la Chambre Nationale des Conseils en Gestion de Patrimoine.</p>
+      <div class="hero__actions">
+        <a class="btn btn--light" href="#contact">Prendre rendez-vous</a>
+        <a class="btn btn--ghost-light" href="tel:+33556397167">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+          05 56 39 71 67
+        </a>
+      </div>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <p class="pillar__title">Projets</p>
+        <p>Vous aider à réaliser vos projets.</p>
+      </div>
+      <div class="pillar">
+        <p class="pillar__title">Solutions</p>
+        <p>Construire ensemble des solutions adaptées.</p>
+      </div>
+      <div class="pillar">
+        <p class="pillar__title">Accompagnement</p>
+        <p>Une équipe à vos côtés dans la durée.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     NOTRE MÉTIER
+     ===================================================== -->
+<section class="section" id="metier">
+  <div class="container split">
+    <div class="split__aside">
+      <h2>Notre métier</h2>
+    </div>
+    <div class="prose">
+      <p class="lead">Vous conseiller dans vos choix patrimoniaux et la mise en place de vos couvertures d’assurances.</p>
+      <p>Placements financiers, investissements immobiliers, préparation de la retraite, assurances de prêts, impôt sur le revenu, protection sociale des dirigeants et professions libérales, couverture de votre famille&nbsp;: nous bâtissons vos projets en respectant vos contraintes personnelles et professionnelles.</p>
+      <p>Nous construisons les solutions les plus adaptées en <strong>validant pour vous les aspects juridiques, civils et fiscaux</strong>, et en recherchant les meilleures garanties et performances à des conditions tarifaires négociées.</p>
+      <p>Nous vous accompagnons dans la <strong>mise en place administrative</strong>, puis assurons un <strong>suivi régulier et précis</strong> de vos placements, en veillant à leur cohérence au gré des évolutions de votre situation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     ACCOMPAGNEMENT (séquence réelle → étapes numérotées)
+     ===================================================== -->
+<section class="section section--mist" id="accompagnement" aria-labelledby="accompagnement-titre">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="accompagnement-titre">Un accompagnement global</h2>
+      <p>De la première analyse au suivi de long terme, une même équipe vous accompagne.</p>
+    </div>
+    <ol class="steps">
+      <li class="step">
+        <h3>Analyse</h3>
+        <p>Étude de votre situation et audit des contrats déjà en place.</p>
+      </li>
+      <li class="step">
+        <h3>Objectifs</h3>
+        <p>Détermination de vos objectifs, à court comme à long terme.</p>
+      </li>
+      <li class="step">
+        <h3>Solutions</h3>
+        <p>Construction ensemble des solutions adaptées, à des conditions négociées.</p>
+      </li>
+      <li class="step">
+        <h3>Suivi</h3>
+        <p>Un accompagnement dans la durée pour assurer le meilleur suivi.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- =====================================================
+     SOLUTIONS & PARTENAIRES
+     ===================================================== -->
+<section class="section" id="solutions" aria-labelledby="solutions-titre">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="solutions-titre">Nos solutions et partenaires</h2>
+      <p>Des solutions adaptées à vos objectifs, appuyées sur un réseau de partenaires sélectionnés.</p>
+    </div>
+
+    <div class="solutions">
+      <article class="solution">
+        <h3>Placements financiers</h3>
+        <ul class="solution__list">
+          <li>Assurance vie et contrats de capitalisation, pour les personnes physiques et les personnes morales</li>
+          <li>Solutions d’épargne pour les personnes sous mesure de protection</li>
+        </ul>
+        <p class="solution__note"><a href="#majeurs-proteges">Découvrir l’accompagnement des majeurs protégés</a></p>
+        <p class="solution__partners"><b>Compagnies</b> Swiss Life, Cardif, MMA Expertise Patrimoine, AXA<br><b>Sociétés de gestion</b> DNCA, Rothschild &amp; Co, Fidelity, Rouvier Valeurs, Sycomore, Swiss Life Asset Managers, Lazard, J.P. Morgan</p>
+      </article>
+
+      <article class="solution">
+        <h3>Courtage en assurances</h3>
+        <ul class="solution__list">
+          <li>Assurances de prêts immobiliers et professionnels</li>
+          <li>Couverture du risque de dépendance</li>
+          <li>Protection sociale des dirigeants, professions libérales et indépendants&nbsp;: prévoyance, retraite, maintien de revenus et frais professionnels (loi Madelin)</li>
+          <li>Frais de santé</li>
+        </ul>
+        <p class="solution__partners"><b>Partenaires</b> April, AFI ESCA, Swiss Life, MetLife, Alptis, Generali, Mutuelle MGC, Cipres Assurances, Elois</p>
+      </article>
+
+      <article class="solution">
+        <h3>Investissements immobiliers</h3>
+        <ul class="solution__list">
+          <li>Location nue, location meublée, démembrement de propriété</li>
+          <li>Investissement en SCPI, OPCI et SCI</li>
+        </ul>
+        <p class="solution__partners"><b>Partenaires</b> Eiffage Immobilier, Sofidy, Primonial, Colocatère</p>
+      </article>
+
+      <article class="solution">
+        <h3>Préparation de la retraite</h3>
+        <ul class="solution__list">
+          <li>Contrats à versements réguliers, diversifiés entre immobilier et placements financiers</li>
+          <li>Gestion déléguée auprès de sociétés de gestion spécialisées</li>
+          <li>Sécurisation progressive de vos investissements</li>
+        </ul>
+        <p class="solution__partners"><b>Gestion déléguée</b> Rothschild &amp; Co, Lazard, DNCA, Sycomore, Rouvier Valeurs</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     MAJEURS PROTÉGÉS — univers vert sauge
+     Textes proposés à partir de la ligne « solutions d’épargne pour les
+     personnes sous mesure de protection » du site actuel : à valider.
+     ===================================================== -->
+<section class="section protege" id="majeurs-proteges" aria-labelledby="protege-titre">
+  <div class="container">
+    <svg class="sprig" viewBox="0 0 240 420" aria-hidden="true">
+      <path class="stem" pathLength="1" d="M128 414 C 122 340, 130 268, 124 196 C 119 136, 124 84, 132 18"/>
+      <g transform="translate(125 330) rotate(-28)"><path class="leaf l1" pathLength="1" d="M0 0 C 22 -26, 78 -30, 104 -4 C 78 18, 24 20, 0 0 Z"/><path class="rib l1" pathLength="1" d="M4 0 C 36 -6, 70 -8, 100 -4"/></g>
+      <g transform="translate(124 290) rotate(208) scale(1 -1)"><path class="leaf l2" pathLength="1" d="M0 0 C 22 -26, 78 -30, 104 -4 C 78 18, 24 20, 0 0 Z"/><path class="rib l2" pathLength="1" d="M4 0 C 36 -6, 70 -8, 100 -4"/></g>
+      <g transform="translate(123 226) rotate(-36)"><path class="leaf l3" pathLength="1" d="M0 0 C 18 -22, 66 -26, 88 -4 C 66 15, 20 17, 0 0 Z"/><path class="rib l3" pathLength="1" d="M4 0 C 30 -5, 60 -7, 84 -4"/></g>
+      <g transform="translate(122 182) rotate(214) scale(1 -1)"><path class="leaf l4" pathLength="1" d="M0 0 C 18 -22, 66 -26, 88 -4 C 66 15, 20 17, 0 0 Z"/><path class="rib l4" pathLength="1" d="M4 0 C 30 -5, 60 -7, 84 -4"/></g>
+      <g transform="translate(125 118) rotate(-44)"><path class="leaf l5" pathLength="1" d="M0 0 C 14 -18, 52 -20, 70 -3 C 52 12, 16 13, 0 0 Z"/><path class="rib l5" pathLength="1" d="M4 0 C 24 -4, 48 -5, 66 -3"/></g>
+      <g transform="translate(128 80) rotate(222) scale(1 -1)"><path class="leaf l6" pathLength="1" d="M0 0 C 12 -15, 44 -17, 60 -3 C 44 10, 14 11, 0 0 Z"/><path class="rib l6" pathLength="1" d="M4 0 C 20 -3, 40 -4, 56 -3"/></g>
+    </svg>
+
+    <div class="protege__intro">
+      <h2 id="protege-titre">Majeurs protégés&nbsp;: préserver le patrimoine d’un proche vulnérable</h2>
+      <p class="lead">Curatelle, tutelle, habilitation familiale&nbsp;: nous mettons en place des solutions d’épargne adaptées aux personnes sous mesure de protection, avec la rigueur que ce cadre exige.</p>
+    </div>
+
+    <p class="protege__statement">Le patrimoine d’une personne protégée doit rester à son service&nbsp;: sécurisé, disponible et géré dans le cadre fixé par le juge.</p>
+
+    <div class="audiences">
+      <div class="audience">
+        <h3>Les familles</h3>
+        <p>Vous exercez une mesure pour un parent ou un enfant. Nous vous aidons à faire les bons choix et à rendre compte de votre gestion.</p>
+      </div>
+      <div class="audience">
+        <h3>Les mandataires judiciaires</h3>
+        <p>Un interlocuteur stable, joignable directement, et des documents clairs pour chaque dossier que vous suivez.</p>
+      </div>
+      <div class="audience">
+        <h3>Les personnes protégées</h3>
+        <p>Une épargne pensée pour leurs besoins du quotidien comme pour les projets de plus long terme.</p>
+      </div>
+    </div>
+
+    <div class="protege__grid">
+      <div class="protege__panel">
+        <h3>Ce que nous faisons</h3>
+        <ul class="checklist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><span>Analyser la situation de la personne protégée&nbsp;: revenus, charges, contrats existants.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><span>Mettre en place une épargne sécurisée, en gardant des fonds disponibles pour les dépenses courantes.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><span>Respecter les autorisations requises selon la mesure, en lien avec le tuteur ou le curateur.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><span>Fournir des relevés lisibles, utiles au compte de gestion annuel.</span></li>
+        </ul>
+      </div>
+      <div class="measures">
+        <h3>Mesures concernées</h3>
+        <ul class="chips">
+          <li>Sauvegarde de justice</li>
+          <li>Curatelle</li>
+          <li>Tutelle</li>
+          <li>Habilitation familiale</li>
+          <li>Mandat de protection future</li>
+        </ul>
+        <p>Chaque situation est différente. Parlons-en lors d’un premier rendez-vous, sans engagement.</p>
+        <div class="protege__cta">
+          <a class="btn btn--primary" href="#contact" data-subject="Majeurs protégés">Parler de la situation d’un proche</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     LE CABINET
+     ===================================================== -->
+<section class="section section--mist" id="cabinet" aria-labelledby="cabinet-titre">
+  <div class="container">
+    <div class="split">
+      <div class="split__aside">
+        <h2 id="cabinet-titre">Une entreprise familiale et indépendante</h2>
+      </div>
+      <div>
+        <p class="lead">Membre de la CNCGP, le cabinet se forme en permanence, se soumet aux contrôles de la Chambre et veille au strict respect des règles de conformité.</p>
+        <ul class="reasons">
+          <li><b>Indépendante</b><span>Une entreprise familiale, capitalistiquement indépendante.</span></li>
+          <li><b>Encadrée</b><span>L’adhésion à la Chambre Nationale des Conseils en Gestion de Patrimoine&nbsp;: un label de qualité et de sécurité pour nos clients.</span></li>
+          <li><b>Locale</b><span>Une équipe dédiée, qualifiée et impliquée, dans nos locaux de Villenave-d’Ornon.</span></li>
+          <li><b>Disponible</b><span>Des interlocuteurs stables, joignables directement, pour construire une relation durable.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="team">
+      <div class="team__head">
+        <h3>L’équipe Seria Patrimoine</h3>
+        <p>Joignez directement votre interlocuteur.</p>
+      </div>
+      <ul class="team__list">
+        <li class="member">
+          <span class="member__mono" aria-hidden="true">WB</span>
+          <span class="member__name">William Buret</span>
+          <span class="member__role">Fondateur, conseiller en gestion de patrimoine</span>
+          <a href="tel:+33625625078">06 25 62 50 78</a>
+          <a href="mailto:wburet@seria-patrimoine.fr">wburet@seria-patrimoine.fr</a>
+        </li>
+        <li class="member">
+          <span class="member__mono" aria-hidden="true">AC</span>
+          <span class="member__name">Anaïs Charmarty</span>
+          <span class="member__role">Conseillère en gestion de patrimoine</span>
+          <a href="tel:+33680303097">06 80 30 30 97</a>
+          <a href="mailto:acharmarty@seria-patrimoine.fr">acharmarty@seria-patrimoine.fr</a>
+        </li>
+        <li class="member">
+          <span class="member__mono" aria-hidden="true">SB</span>
+          <span class="member__name">Sandra Barou</span>
+          <span class="member__role">Conseillère en gestion de patrimoine</span>
+          <a href="tel:+33556397167">05 56 39 71 67</a>
+          <a href="mailto:sbarou@seria-patrimoine.fr">sbarou@seria-patrimoine.fr</a>
+        </li>
+        <li class="member">
+          <span class="member__mono" aria-hidden="true">AD</span>
+          <span class="member__name">Amélie Djedra</span>
+          <span class="member__role">Assistante patrimoniale, responsable du back-office souscriptions</span>
+          <a href="tel:+33556397167">05 56 39 71 67</a>
+          <a href="mailto:adjedra@seria-patrimoine.fr">adjedra@seria-patrimoine.fr</a>
+        </li>
+        <li class="member">
+          <span class="member__mono" aria-hidden="true">MB</span>
+          <span class="member__name">Marie Buret</span>
+          <span class="member__role">Assistante administrative et conformité</span>
+          <a href="tel:+33556397167">05 56 39 71 67</a>
+          <a href="mailto:mburet@seria-patrimoine.fr">mburet@seria-patrimoine.fr</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     ENGAGEMENTS
+     ===================================================== -->
+<section class="section" id="engagements" aria-labelledby="engagements-titre">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="engagements-titre">Nos engagements</h2>
+      <p>Les entreprises durables sont des entreprises responsables. Nous soutenons de grandes causes et défendons une finance plus éthique.</p>
+    </div>
+    <div class="pledge">
+      <div class="pledge__main">
+        <p class="pledge__tree">Un arbre planté pour chaque nouveau client.</p>
+        <p>Depuis sa création, le cabinet finance chaque année la reforestation avec Reforest’Action. Notre souhait&nbsp;: faire grandir, ensemble, une forêt Seria Patrimoine.</p>
+        <a class="btn btn--ghost" href="https://www.reforestaction.com/seria-patrimoine" target="_blank" rel="noopener">Voir notre forêt sur Reforest’Action</a>
+      </div>
+      <ul class="pledge__list">
+        <li>
+          <h3>Un rien c’est tout</h3>
+          <p>Un don chaque année à cette association locale engagée pour le droit à la dignité, l’enfance et l’éducation, la santé et l’environnement.</p>
+        </li>
+        <li>
+          <h3>Zéro Déchet des Grands Lacs</h3>
+          <p>Nous soutenons cette association affiliée à Zero Waste France, qui sensibilise au zéro déchet et au zéro gaspillage par des actions ludiques et pédagogiques.</p>
+        </li>
+        <li>
+          <h3>Signature électronique</h3>
+          <p>Avec Universign, vos documents sont lus et validés à distance, avec un excellent niveau de sécurité et beaucoup moins d’impressions. Quand il faut imprimer, nous utilisons du papier 100&nbsp;% recyclé.</p>
+        </li>
+        <li>
+          <h3>Confidentialité</h3>
+          <p>Tous vos documents sont collectés, détruits par un établissement certifié, puis recyclés.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     CONTACT
+     ===================================================== -->
+<section class="section contact on-dark" id="contact" aria-labelledby="contact-titre">
+  <div class="container contact__grid">
+    <div>
+      <h2 id="contact-titre">Prendre rendez-vous</h2>
+      <p class="contact__intro">Quel que soit votre projet, nous vous apportons des solutions personnalisées, appuyées sur un réseau de partenaires de qualité.</p>
+      <dl class="coords">
+        <div>
+          <dt>Adresse</dt>
+          <dd><a href="https://www.google.com/maps/search/?api=1&amp;query=111+Avenue+des+Pyr%C3%A9n%C3%A9es+33140+Villenave-d%27Ornon" target="_blank" rel="noopener">111 avenue des Pyrénées<br>33140 Villenave-d’Ornon</a></dd>
+        </div>
+        <div>
+          <dt>Téléphone</dt>
+          <dd><a href="tel:+33556397167">05 56 39 71 67</a></dd>
+        </div>
+        <div>
+          <dt>E-mail</dt>
+          <dd><a href="mailto:contact@seria-patrimoine.fr">contact@seria-patrimoine.fr</a></dd>
+        </div>
+        <div>
+          <dt>Horaires</dt>
+          <dd class="hours">
+            <span>Lundi – jeudi</span><span>9 h – 12 h 30, 14 h – 18 h</span>
+            <span>Vendredi</span><span>9 h – 12 h, 14 h – 16 h</span>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <form class="form" id="contact-form" novalidate>
+      <h3>Écrivez-nous</h3>
+      <div class="field">
+        <label for="f-name">Nom et prénom</label>
+        <input id="f-name" name="name" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="f-phone">Téléphone</label>
+        <input id="f-phone" name="phone" type="tel" autocomplete="tel">
+      </div>
+      <div class="field field--full">
+        <label for="f-email">E-mail</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field field--full">
+        <label for="f-subject">Votre demande concerne</label>
+        <select id="f-subject" name="subject">
+          <option>Placements financiers</option>
+          <option>Courtage en assurances</option>
+          <option>Investissements immobiliers</option>
+          <option>Préparation de la retraite</option>
+          <option>Majeurs protégés</option>
+          <option>Autre demande</option>
+        </select>
+      </div>
+      <div class="field field--full">
+        <label for="f-message">Message</label>
+        <textarea id="f-message" name="message" required></textarea>
+      </div>
+      <div class="form__foot">
+        <button class="btn btn--primary" type="submit">Envoyer par e-mail</button>
+        <p>Le bouton ouvre votre messagerie avec votre demande pré-remplie.</p>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<!-- =====================================================
+     PIED DE PAGE
+     ===================================================== -->
+<footer class="footer on-dark">
+  <div class="container">
+    <div class="footer__top">
+      <a class="wordmark" href="#accueil"><span class="wordmark__name">SERIA</span><span class="wordmark__sub">Patrimoine</span></a>
+      <nav class="footer__nav" aria-label="Plan du site">
+        <a href="#metier">Notre métier</a>
+        <a href="#solutions">Solutions</a>
+        <a href="#majeurs-proteges">Majeurs protégés</a>
+        <a href="#cabinet">Le cabinet</a>
+        <a href="#engagements">Engagements</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+    <div class="footer__legal">
+      <p>Seria Patrimoine, SARL au capital de 20&nbsp;000&nbsp;€, RCS Bordeaux 833&nbsp;179&nbsp;542. Conseiller en investissements financiers et courtier en assurances, immatriculé à l’ORIAS sous le n°&nbsp;17006992. Membre de la Chambre Nationale des Conseils en Gestion de Patrimoine.</p>
+      <details>
+        <summary>Mentions légales</summary>
+        <p>Siège&nbsp;: 111 avenue des Pyrénées, 33140 Villenave-d’Ornon. Code APE 6622Z. Carte professionnelle transactions sur immeubles et fonds de commerce n°&nbsp;CPI 3301 2018 000 023 650. Responsabilité civile professionnelle&nbsp;: MMA IARD Assurances Mutuelles (groupe Covéa), 14 boulevard Marie et Alexandre Oyon, 72030 Le Mans Cedex 9. Directeur de la publication&nbsp;: William Buret.</p>
+        <p><a href="https://www.seria-patrimoine.fr/charte-seria-patrimoine-cncgp/">Charte Seria Patrimoine CNCGP</a></p>
+      </details>
+      <p>© <span id="year">2026</span> Seria Patrimoine</p>
+    </div>
+  </div>
+</footer>
+
+<!-- =====================================================
+     SCRIPT — Essai typo (Google Fonts)
+     ===================================================== -->
+<script>
+(() => {
+  // Catégories : s = serif, ss = sans serif, d = display, h = manuscrite, m = chasse fixe
+  const CATEGORIES = {
+    s:  { label: 'Serif (avec empattements)', stack: 'Georgia, "Times New Roman", serif', weight: 400, tracking: '-0.012em', leading: 1.06 },
+    ss: { label: 'Sans serif', stack: 'system-ui, -apple-system, "Segoe UI", sans-serif', weight: 500, tracking: '-0.025em', leading: 1.05 },
+    d:  { label: 'Display', stack: 'Georgia, serif', weight: 400, tracking: '0em', leading: 1.04 },
+    h:  { label: 'Manuscrites', stack: 'cursive', weight: 400, tracking: '0em', leading: 1.2 },
+    m:  { label: 'Chasse fixe', stack: 'ui-monospace, Menlo, Consolas, monospace', weight: 500, tracking: '-0.03em', leading: 1.1 }
+  };
+
+  const FONTS = {
+    s: ['Newsreader','Playfair Display','Playfair','Cormorant Garamond','Cormorant','EB Garamond','Libre Baskerville','Lora','Merriweather','Crimson Pro','Crimson Text','DM Serif Display','DM Serif Text','Fraunces','Bodoni Moda','Cinzel','Marcellus','Prata','Gilda Display','Spectral','Source Serif 4','Noto Serif','Noto Serif Display','PT Serif','Libre Caslon Text','Libre Caslon Display','Instrument Serif','Young Serif','Italiana','Bellefair','Cardo','Literata','Petrona','Gloock','Roboto Serif','Roboto Slab','Zilla Slab','Arvo','Domine','Alegreya','Vollkorn','Bitter','IBM Plex Serif','Rufina','Forum','Josefin Slab','Old Standard TT'],
+    ss: ['Hanken Grotesk','Inter','Roboto','Open Sans','Montserrat','Lato','Poppins','Source Sans 3','Raleway','Nunito','Nunito Sans','Work Sans','DM Sans','Manrope','Plus Jakarta Sans','Outfit','Urbanist','Figtree','Rubik','Mulish','Karla','Barlow','Jost','Lexend','Sora','Space Grotesk','Josefin Sans','Quicksand','Archivo','IBM Plex Sans','Noto Sans','PT Sans','Fira Sans','Ubuntu','Hind','Cabin','Heebo','Libre Franklin','Red Hat Display','Red Hat Text','Albert Sans','Be Vietnam Pro','Onest','Geist','Instrument Sans','Public Sans','Schibsted Grotesk','Bricolage Grotesque','Epilogue','Kumbh Sans','Questrial','Assistant','Titillium Web','Exo 2','Oxygen','Varela Round','Overpass','Commissioner','Golos Text'],
+    d: ['Bebas Neue','Oswald','Anton','Abril Fatface','Syne','Unbounded','Archivo Black','Righteous','Yeseva One','Rozha One','Poiret One','Alfa Slab One','Big Shoulders Display','Fjalla One','Teko'],
+    h: ['Dancing Script','Great Vibes','Parisienne','Allura','Pacifico','Caveat','Sacramento','Satisfy'],
+    m: ['JetBrains Mono','Space Mono','IBM Plex Mono','DM Mono','Roboto Mono','Fira Code']
+  };
+
+  const DEFAULTS = { display: 'Newsreader', body: 'Hanken Grotesk' };
+  const CURRENT_SITE = ['Montserrat', 'Source Sans 3']; // polices du site actuel
+
+  const catOf = {};
+  Object.entries(FONTS).forEach(([c, list]) => list.forEach(n => { catOf[n] = c; }));
+
+  const root = document.documentElement;
+  const selDisplay = document.getElementById('font-display');
+  const selBody = document.getElementById('font-body');
+  const status = document.getElementById('tb-status');
+
+  // ---- Remplissage des selects (groupés par catégorie)
+  function fill(select) {
+    Object.entries(FONTS).forEach(([c, list]) => {
+      const group = document.createElement('optgroup');
+      group.label = CATEGORIES[c].label;
+      [...list].sort((a, b) => a.localeCompare(b, 'fr')).forEach(name => {
+        const o = document.createElement('option');
+        o.value = name;
+        o.textContent = CURRENT_SITE.includes(name) ? `${name} (actuel)` : name;
+        group.appendChild(o);
+      });
+      select.appendChild(group);
+    });
+  }
+  fill(selDisplay);
+  fill(selBody);
+
+  // ---- Chargement à la demande, avec repli si certaines graisses n’existent pas
+  const cache = new Map();
+  function loadFont(name) {
+    if (cache.has(name)) return cache.get(name);
+    if (document.querySelector(`link[data-font="${name}"]`)) {
+      const p = Promise.resolve(true); cache.set(name, p); return p;
+    }
+    const fam = encodeURIComponent(name).replace(/%20/g, '+');
+    const variants = [
+      `${fam}:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400`,
+      `${fam}:wght@300;400;500;600;700`,
+      `${fam}:wght@400;500;600;700`,
+      `${fam}:wght@400;700`,
+      fam
+    ];
+    const p = new Promise(resolve => {
+      let i = 0;
+      const attempt = () => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = `https://fonts.googleapis.com/css2?family=${variants[i]}&display=swap`;
+        link.dataset.font = name;
+        link.onload = () => resolve(true);
+        link.onerror = () => { link.remove(); i += 1; i < variants.length ? attempt() : resolve(false); };
+        document.head.appendChild(link);
+      };
+      attempt();
+    });
+    cache.set(name, p);
+    return p;
+  }
+
+  function quote(name) { return `"${name}"`; }
+
+  function applyDisplay(name) {
+    const c = CATEGORIES[catOf[name] || 's'];
+    root.style.setProperty('--font-display', `${quote(name)}, ${c.stack}`);
+    root.style.setProperty('--display-weight', c.weight);
+    root.style.setProperty('--display-tracking', c.tracking);
+    root.style.setProperty('--display-leading', c.leading);
+  }
+  function applyBody(name) {
+    const c = CATEGORIES[catOf[name] || 'ss'];
+    root.style.setProperty('--font-body', `${quote(name)}, ${c.stack}`);
+  }
+
+  let token = 0;
+  async function setFonts(display, body, { updateUrl = true } = {}) {
+    if (!catOf[display]) display = DEFAULTS.display;
+    if (!catOf[body]) body = DEFAULTS.body;
+    selDisplay.value = display;
+    selBody.value = body;
+    const t = ++token;
+    status.textContent = `Chargement de ${display === body ? display : display + ' et ' + body}…`;
+    const [okD, okB] = await Promise.all([loadFont(display), loadFont(body)]);
+    if (t !== token) return; // un choix plus récent a été fait entre-temps
+    applyDisplay(display);
+    applyBody(body);
+    const fails = [!okD && display, !okB && body].filter(Boolean);
+    status.textContent = fails.length
+      ? `Impossible de charger ${fails.join(' et ')} (connexion à Google Fonts ?)`
+      : `Titres : ${display}, texte : ${body}`;
+    if (updateUrl) {
+      const params = new URLSearchParams(location.search);
+      params.set('titres', display);
+      params.set('texte', body);
+      history.replaceState(null, '', `${location.pathname}?${params.toString()}${location.hash}`);
+    }
+  }
+
+  // ---- Événements
+  selDisplay.addEventListener('change', () => setFonts(selDisplay.value, selBody.value));
+  selBody.addEventListener('change', () => setFonts(selDisplay.value, selBody.value));
+
+  function step(select, dir) {
+    const opts = [...select.options];
+    const i = opts.findIndex(o => o.value === select.value);
+    select.value = opts[(i + dir + opts.length) % opts.length].value;
+    select.dispatchEvent(new Event('change'));
+  }
+  document.querySelectorAll('.tb-step').forEach(btn => {
+    btn.addEventListener('click', () => step(document.getElementById(btn.dataset.target), Number(btn.dataset.dir)));
+  });
+
+  // Raccourcis : ← / → = titres, Maj + ← / → = texte
+  document.addEventListener('keydown', e => {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.target.closest('input, textarea, select, [contenteditable]')) return;
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    e.preventDefault();
+    step(e.shiftKey ? selBody : selDisplay, e.key === 'ArrowRight' ? 1 : -1);
+  });
+
+  document.getElementById('tb-reset').addEventListener('click', () => setFonts(DEFAULTS.display, DEFAULTS.body));
+
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2200);
+  }
+  document.getElementById('tb-share').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(location.href); showToast('Lien copié avec ce duo de polices'); }
+    catch { showToast('Copiez l’adresse de la page pour partager ce duo'); }
+  });
+
+  // Masquer / afficher la barre
+  const showBtn = document.getElementById('tb-show');
+  function setBar(visible) {
+    root.classList.toggle('typebar-hidden', !visible);
+    showBtn.hidden = visible;
+  }
+  document.getElementById('tb-hide').addEventListener('click', () => { setBar(false); showBtn.focus(); });
+  showBtn.addEventListener('click', () => { setBar(true); selDisplay.focus(); });
+
+  // ---- Démarrage (lit ?titres=…&texte=… pour partager un duo)
+  const params = new URLSearchParams(location.search);
+  const fromUrl = params.has('titres') || params.has('texte');
+  setFonts(params.get('titres') || DEFAULTS.display, params.get('texte') || DEFAULTS.body, { updateUrl: fromUrl });
+})();
+</script>
+
+<!-- =====================================================
+     SCRIPT — Site (navigation, univers sauge, formulaire)
+     ===================================================== -->
+<script>
+(() => {
+  const root = document.documentElement;
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+
+  // ---- Univers : marine ↔ sauge quand la section Majeurs protégés occupe le centre de l’écran
+  const protege = document.getElementById('majeurs-proteges');
+  new IntersectionObserver(([entry]) => {
+    const sage = entry.isIntersecting;
+    root.dataset.universe = sage ? 'sage' : 'marine';
+    metaTheme.setAttribute('content', sage ? '#5c7151' : '#002854');
+    if (sage) protege.classList.add('is-drawn');
+  }, { rootMargin: '-38% 0px -38% 0px' }).observe(protege);
+
+  // ---- Lien actif dans la navigation
+  const links = [...document.querySelectorAll('.nav__list a')];
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + entry.target.id ? 'true' : 'false'));
+    });
+  }, { rootMargin: '-50% 0px -50% 0px' });
+  sections.forEach(s => spy.observe(s));
+
+  // ---- Barre de progression de lecture
+  const bar = document.querySelector('.progress');
+  let ticking = false;
+  const update = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    ticking = false;
+  };
+  addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } }, { passive: true });
+  update();
+
+  // ---- Menu mobile
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.getElementById('nav');
+  const setMenu = open => {
+    nav.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.textContent = open ? 'Fermer' : 'Menu';
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  toggle.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
+  nav.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('is-open')) { setMenu(false); toggle.focus(); } });
+  matchMedia('(min-width: 961px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+
+  // ---- Préremplir l’objet depuis un bouton (ex. « Parler de la situation d’un proche »)
+  document.querySelectorAll('[data-subject]').forEach(a => a.addEventListener('click', () => {
+    document.getElementById('f-subject').value = a.dataset.subject;
+  }));
+
+  // ---- Formulaire : ouvre la messagerie (aucun serveur requis sur GitHub Pages)
+  const form = document.getElementById('contact-form');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    const d = new FormData(form);
+    const body = [
+      `Nom : ${d.get('name')}`,
+      `E-mail : ${d.get('email')}`,
+      d.get('phone') ? `Téléphone : ${d.get('phone')}` : '',
+      '',
+      d.get('message')
+    ].filter(l => l !== null).join('\n');
+    location.href = `mailto:contact@seria-patrimoine.fr?subject=${encodeURIComponent('Demande de rendez-vous : ' + d.get('subject'))}&body=${encodeURIComponent(body)}`;
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
