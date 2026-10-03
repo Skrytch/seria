@@ -11,8 +11,8 @@
 <!-- Google Fonts : préconnexion + duo par défaut (les autres polices sont chargées à la demande) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" data-font="Newsreader" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
-<link rel="stylesheet" data-font="Hanken Grotesk" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" data-font="Plus Jakarta Sans" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" data-font="Inter" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
 
 <style>
 /* =========================================================
@@ -56,11 +56,14 @@
   --line: #e3e6ea;
 
   /* Typo — pilotée par la barre d’essai */
-  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
-  --font-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display-weight: 400;
-  --display-tracking: -0.012em;
-  --display-leading: 1.06;
+  --font-display: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display-weight: 500;
+  --display-tracking: -0.02em;
+  --display-leading: 1.08;
+  /* Taille optique plafonnée pour les titres (polices qui en ont une, comme Inter) :
+     au-delà, les traits fins peuvent créneler à l’écran sur fond foncé. */
+  --display-opsz: 32;
   --ui-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   /* Échelle typographique (base 18 px) */
@@ -68,8 +71,8 @@
   --fs-body: 1.125rem;
   --fs-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
   --fs-h3: clamp(1.375rem, 1.25rem + 0.5vw, 1.625rem);
-  --fs-h2: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
-  --fs-h1: clamp(2.625rem, 1.5rem + 4.2vw, 5.25rem);
+  --fs-h2: clamp(2rem, 1.5rem + 2.2vw, 3.25rem);
+  --fs-h1: clamp(2.375rem, 1.4rem + 3.6vw, 4.5rem);
 
   /* Mise en page */
   --container: 1240px;
@@ -111,7 +114,7 @@ body {
   font-size: var(--fs-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  font-synthesis: none; /* pas de faux gras ni de fausse italique si une graisse manque */
   padding-top: var(--typebar-h);
 }
 img, svg { display: block; max-width: 100%; }
@@ -129,15 +132,16 @@ h1, h2, h3 {
   text-wrap: balance;
   transition: color var(--shift);
 }
+/* Tout texte composé dans la police de titres */
+h1, h2, h3, .wordmark, .pillar__title, .prose .lead, .protege__statement,
+.reasons b, .member__name, .pledge__tree, .step::before {
+  font-variation-settings: "opsz" var(--display-opsz);
+}
 h2 { font-size: var(--fs-h2); }
 h3 { font-size: var(--fs-h3); line-height: 1.2; letter-spacing: 0; }
 strong { font-weight: 600; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 .on-dark :focus-visible { outline-color: var(--white); }
-.visually-hidden {
-  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); white-space: nowrap; border: 0; padding: 0; margin: -1px;
-}
 .skip-link {
   position: absolute; left: 16px; top: -100px; z-index: 100;
   background: var(--white); color: var(--navy); padding: 10px 16px; border-radius: 4px;
@@ -148,7 +152,6 @@ strong { font-weight: 600; }
 .section { padding-block: var(--section-pad); position: relative; }
 .section--mist { background: var(--mist); }
 .lead { font-size: var(--fs-lead); line-height: 1.5; color: var(--ink); }
-.muted { color: var(--muted); }
 
 /* Boutons */
 .btn {
@@ -453,6 +456,7 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
   line-height: 1.08; color: var(--navy); letter-spacing: var(--display-tracking); max-width: 13ch;
 }
 .pledge__main p { margin-top: 24px; color: var(--muted); }
+.pledge__main .pledge__tree { margin-top: 0; color: var(--navy); }
 .pledge__main .btn { margin-top: 28px; }
 .pledge__list { border-top: 1px solid #d4d8de; }
 .pledge__list li { padding: 24px 0; border-bottom: 1px solid #d4d8de; }
@@ -537,7 +541,7 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
   }
   .nav.is-open { display: flex; }
   .nav__list { flex-direction: column; gap: 0; }
-  .nav__list a { display: block; padding: 16px 0; font-family: var(--font-display); font-size: 1.75rem; border-bottom: 1px solid var(--line); }
+  .nav__list a { display: block; padding: 16px 0; font-family: var(--font-display); font-size: 1.75rem; border-bottom: 1px solid var(--line); font-variation-settings: "opsz" var(--display-opsz); }
   .nav__list a::after { display: none; }
   .nav .btn { display: inline-flex; margin-top: 28px; min-height: 52px; }
   .split, .contact__grid, .pledge, .protege__grid { grid-template-columns: 1fr; }
@@ -648,7 +652,7 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
   <div class="container">
     <h1>Votre patrimoine, construit avec vous et suivi dans la durée.</h1>
     <div class="hero__intro">
-      <p><strong>Seria Patrimoine</strong> est un cabinet de gestion de patrimoine et de courtage en assurances à Villenave-d’Ornon, membre de la Chambre Nationale des Conseils en Gestion de Patrimoine.</p>
+      <p><strong>Seria Patrimoine</strong> est un cabinet de gestion de patrimoine et de courtage en assurances à Villenave&#8209;d’Ornon, membre de la Chambre Nationale des Conseils en Gestion de Patrimoine.</p>
       <div class="hero__actions">
         <a class="btn btn--light" href="#contact">Prendre rendez-vous</a>
         <a class="btn btn--ghost-light" href="tel:+33556397167">
@@ -857,7 +861,7 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
         <ul class="reasons">
           <li><b>Indépendante</b><span>Une entreprise familiale, capitalistiquement indépendante.</span></li>
           <li><b>Encadrée</b><span>L’adhésion à la Chambre Nationale des Conseils en Gestion de Patrimoine&nbsp;: un label de qualité et de sécurité pour nos clients.</span></li>
-          <li><b>Locale</b><span>Une équipe dédiée, qualifiée et impliquée, dans nos locaux de Villenave-d’Ornon.</span></li>
+          <li><b>Locale</b><span>Une équipe dédiée, qualifiée et impliquée, dans nos locaux de Villenave&#8209;d’Ornon.</span></li>
           <li><b>Disponible</b><span>Des interlocuteurs stables, joignables directement, pour construire une relation durable.</span></li>
         </ul>
       </div>
@@ -957,7 +961,7 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
       <dl class="coords">
         <div>
           <dt>Adresse</dt>
-          <dd><a href="https://www.google.com/maps/search/?api=1&amp;query=111+Avenue+des+Pyr%C3%A9n%C3%A9es+33140+Villenave-d%27Ornon" target="_blank" rel="noopener">111 avenue des Pyrénées<br>33140 Villenave-d’Ornon</a></dd>
+          <dd><a href="https://www.google.com/maps/search/?api=1&amp;query=111+Avenue+des+Pyr%C3%A9n%C3%A9es+33140+Villenave-d%27Ornon" target="_blank" rel="noopener">111 avenue des Pyrénées<br>33140 Villenave&#8209;d’Ornon</a></dd>
         </div>
         <div>
           <dt>Téléphone</dt>
@@ -970,8 +974,8 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
         <div>
           <dt>Horaires</dt>
           <dd class="hours">
-            <span>Lundi – jeudi</span><span>9 h – 12 h 30, 14 h – 18 h</span>
-            <span>Vendredi</span><span>9 h – 12 h, 14 h – 16 h</span>
+            <span>Lundi – jeudi</span><span>9&nbsp;h&nbsp;–&nbsp;12&nbsp;h&nbsp;30, 14&nbsp;h&nbsp;–&nbsp;18&nbsp;h</span>
+            <span>Vendredi</span><span>9&nbsp;h&nbsp;–&nbsp;12&nbsp;h, 14&nbsp;h&nbsp;–&nbsp;16&nbsp;h</span>
           </dd>
         </div>
       </dl>
@@ -1035,7 +1039,7 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
       <p>Seria Patrimoine, SARL au capital de 20&nbsp;000&nbsp;€, RCS Bordeaux 833&nbsp;179&nbsp;542. Conseiller en investissements financiers et courtier en assurances, immatriculé à l’ORIAS sous le n°&nbsp;17006992. Membre de la Chambre Nationale des Conseils en Gestion de Patrimoine.</p>
       <details>
         <summary>Mentions légales</summary>
-        <p>Siège&nbsp;: 111 avenue des Pyrénées, 33140 Villenave-d’Ornon. Code APE 6622Z. Carte professionnelle transactions sur immeubles et fonds de commerce n°&nbsp;CPI 3301 2018 000 023 650. Responsabilité civile professionnelle&nbsp;: MMA IARD Assurances Mutuelles (groupe Covéa), 14 boulevard Marie et Alexandre Oyon, 72030 Le Mans Cedex 9. Directeur de la publication&nbsp;: William Buret.</p>
+        <p>Siège&nbsp;: 111 avenue des Pyrénées, 33140 Villenave&#8209;d’Ornon. Code APE 6622Z. Carte professionnelle transactions sur immeubles et fonds de commerce n°&nbsp;CPI 3301 2018 000 023 650. Responsabilité civile professionnelle&nbsp;: MMA IARD Assurances Mutuelles (groupe Covéa), 14 boulevard Marie et Alexandre Oyon, 72030 Le Mans Cedex 9. Directeur de la publication&nbsp;: William Buret.</p>
         <p><a href="https://www.seria-patrimoine.fr/charte-seria-patrimoine-cncgp/">Charte Seria Patrimoine CNCGP</a></p>
       </details>
       <p>© <span id="year">2026</span> Seria Patrimoine</p>
@@ -1048,47 +1052,25 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
      ===================================================== -->
 <script>
 (() => {
-  // Catégories : s = serif, ss = sans serif, d = display, h = manuscrite, m = chasse fixe
-  const CATEGORIES = {
-    s:  { label: 'Serif (avec empattements)', stack: 'Georgia, "Times New Roman", serif', weight: 400, tracking: '-0.012em', leading: 1.06 },
-    ss: { label: 'Sans serif', stack: 'system-ui, -apple-system, "Segoe UI", sans-serif', weight: 500, tracking: '-0.025em', leading: 1.05 },
-    d:  { label: 'Display', stack: 'Georgia, serif', weight: 400, tracking: '0em', leading: 1.04 },
-    h:  { label: 'Manuscrites', stack: 'cursive', weight: 400, tracking: '0em', leading: 1.2 },
-    m:  { label: 'Chasse fixe', stack: 'ui-monospace, Menlo, Consolas, monospace', weight: 500, tracking: '-0.03em', leading: 1.1 }
-  };
+  // Polices sans serif : les plus populaires de Google Fonts + une sélection premium et luxe
+  const FONTS = [
+    'Albert Sans', 'Belleza', 'DM Sans', 'Federo', 'Figtree', 'Hanken Grotesk', 'Instrument Sans',
+    'Inter', 'Josefin Sans', 'Jost', 'Julius Sans One', 'Lato', 'Manrope', 'Montserrat',
+    'Nunito Sans', 'Open Sans', 'Outfit', 'Plus Jakarta Sans', 'Poppins', 'Raleway', 'Roboto',
+    'Schibsted Grotesk', 'Source Sans 3', 'Tenor Sans', 'Urbanist', 'Work Sans'
+  ];
+  const STACK = 'system-ui, -apple-system, "Segoe UI", sans-serif';
 
-  const FONTS = {
-    s: ['Newsreader','Playfair Display','Playfair','Cormorant Garamond','Cormorant','EB Garamond','Libre Baskerville','Lora','Merriweather','Crimson Pro','Crimson Text','DM Serif Display','DM Serif Text','Fraunces','Bodoni Moda','Cinzel','Marcellus','Prata','Gilda Display','Spectral','Source Serif 4','Noto Serif','Noto Serif Display','PT Serif','Libre Caslon Text','Libre Caslon Display','Instrument Serif','Young Serif','Italiana','Bellefair','Cardo','Literata','Petrona','Gloock','Roboto Serif','Roboto Slab','Zilla Slab','Arvo','Domine','Alegreya','Vollkorn','Bitter','IBM Plex Serif','Rufina','Forum','Josefin Slab','Old Standard TT'],
-    ss: ['Hanken Grotesk','Inter','Roboto','Open Sans','Montserrat','Lato','Poppins','Source Sans 3','Raleway','Nunito','Nunito Sans','Work Sans','DM Sans','Manrope','Plus Jakarta Sans','Outfit','Urbanist','Figtree','Rubik','Mulish','Karla','Barlow','Jost','Lexend','Sora','Space Grotesk','Josefin Sans','Quicksand','Archivo','IBM Plex Sans','Noto Sans','PT Sans','Fira Sans','Ubuntu','Hind','Cabin','Heebo','Libre Franklin','Red Hat Display','Red Hat Text','Albert Sans','Be Vietnam Pro','Onest','Geist','Instrument Sans','Public Sans','Schibsted Grotesk','Bricolage Grotesque','Epilogue','Kumbh Sans','Questrial','Assistant','Titillium Web','Exo 2','Oxygen','Varela Round','Overpass','Commissioner','Golos Text'],
-    d: ['Bebas Neue','Oswald','Anton','Abril Fatface','Syne','Unbounded','Archivo Black','Righteous','Yeseva One','Rozha One','Poiret One','Alfa Slab One','Big Shoulders Display','Fjalla One','Teko'],
-    h: ['Dancing Script','Great Vibes','Parisienne','Allura','Pacifico','Caveat','Sacramento','Satisfy'],
-    m: ['JetBrains Mono','Space Mono','IBM Plex Mono','DM Mono','Roboto Mono','Fira Code']
-  };
-
-  const DEFAULTS = { display: 'Newsreader', body: 'Hanken Grotesk' };
-  const CURRENT_SITE = ['Montserrat', 'Source Sans 3']; // polices du site actuel
-
-  const catOf = {};
-  Object.entries(FONTS).forEach(([c, list]) => list.forEach(n => { catOf[n] = c; }));
+  const DEFAULTS = { display: 'Plus Jakarta Sans', body: 'Inter' };
 
   const root = document.documentElement;
   const selDisplay = document.getElementById('font-display');
   const selBody = document.getElementById('font-body');
   const status = document.getElementById('tb-status');
 
-  // ---- Remplissage des selects (groupés par catégorie)
+  // ---- Remplissage des selects
   function fill(select) {
-    Object.entries(FONTS).forEach(([c, list]) => {
-      const group = document.createElement('optgroup');
-      group.label = CATEGORIES[c].label;
-      [...list].sort((a, b) => a.localeCompare(b, 'fr')).forEach(name => {
-        const o = document.createElement('option');
-        o.value = name;
-        o.textContent = CURRENT_SITE.includes(name) ? `${name} (actuel)` : name;
-        group.appendChild(o);
-      });
-      select.appendChild(group);
-    });
+    FONTS.forEach(name => select.add(new Option(name, name)));
   }
   fill(selDisplay);
   fill(selBody);
@@ -1127,22 +1109,13 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
 
   function quote(name) { return `"${name}"`; }
 
-  function applyDisplay(name) {
-    const c = CATEGORIES[catOf[name] || 's'];
-    root.style.setProperty('--font-display', `${quote(name)}, ${c.stack}`);
-    root.style.setProperty('--display-weight', c.weight);
-    root.style.setProperty('--display-tracking', c.tracking);
-    root.style.setProperty('--display-leading', c.leading);
-  }
-  function applyBody(name) {
-    const c = CATEGORIES[catOf[name] || 'ss'];
-    root.style.setProperty('--font-body', `${quote(name)}, ${c.stack}`);
-  }
+  function applyDisplay(name) { root.style.setProperty('--font-display', `${quote(name)}, ${STACK}`); }
+  function applyBody(name) { root.style.setProperty('--font-body', `${quote(name)}, ${STACK}`); }
 
   let token = 0;
   async function setFonts(display, body, { updateUrl = true } = {}) {
-    if (!catOf[display]) display = DEFAULTS.display;
-    if (!catOf[body]) body = DEFAULTS.body;
+    if (!FONTS.includes(display)) display = DEFAULTS.display;
+    if (!FONTS.includes(body)) body = DEFAULTS.body;
     selDisplay.value = display;
     selBody.value = body;
     const t = ++token;
@@ -1287,7 +1260,7 @@ html[data-universe="sage"] .typebar__dot { background: var(--sage-leaf); }
       d.get('phone') ? `Téléphone : ${d.get('phone')}` : '',
       '',
       d.get('message')
-    ].filter(l => l !== null).join('\n');
+    ].join('\n');
     location.href = `mailto:contact@seria-patrimoine.fr?subject=${encodeURIComponent('Demande de rendez-vous : ' + d.get('subject'))}&body=${encodeURIComponent(body)}`;
   });
 
